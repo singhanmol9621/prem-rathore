@@ -1,0 +1,192 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+
+    <style>
+        :root {
+            --pink-bg: #ffe4e9;
+            --dark-pink: #ff4d6d;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--pink-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .hidden { display: none; }
+
+        h1 { color: var(--dark-pink); }
+
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #yesBtn { background-color: var(--dark-pink); color: white; }
+        #noBtn { background-color: #eee; color: #555; }
+
+        .gift-box {
+            display: inline-block;
+            background: var(--dark-pink);
+            color: white;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .letter {
+            background: #fffcf2;
+            padding: 15px;
+            border: 1px solid #ddd;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        #giftMessage {
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        .call-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--dark-pink);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            resize: vertical;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Page 1 -->
+    <div id="page1" class="container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWp0eDlxamZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/c76IJLufpNwSULPk77/giphy.gif" width="150">
+        <h1>Will you be my Valentine?</h1>
+
+        <div class="btn-container">
+            <button id="yesBtn" onclick="nextPage(2)">YES OF COURSE</button>
+            <button id="noBtn" onmouseover="moveButton()">NO THANK YOU</button>
+        </div>
+    </div>
+
+    <!-- Page 2 -->
+    <div id="page2" class="container hidden">
+        <h1>Yay! Choose a Gift</h1>
+
+        <div class="gift-box" onclick="showGift()">
+            Gift 1
+        </div>
+
+        <div class="gift-box" onclick="showChocolate()">
+            Gift 2
+        </div>
+
+        <div class="gift-box" onclick="nextPage(3)">
+            Gift 3 (Letter)
+        </div>
+
+        <div id="giftMessage"></div>
+    </div>
+
+    <!-- Page 3 (Gift 3 Updated) -->
+    <div id="page3" class="container hidden">
+        <h1>Words from my heart</h1>
+
+        <div class="letter">
+            To the <b>Morning</b> of my life, you make every day brighter.  
+            I'm so lucky if I have you ❤️  
+            Always yours forever!
+        </div>
+
+        <!-- Call button moved here -->
+        <a href="tel:9528793864" class="call-btn">
+            Tap here if you miss me ❤️
+        </a>
+
+        <br><br>
+        <button id="yesBtn" onclick="location.reload()">Restart</button>
+    </div>
+
+    <script>
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+            document.getElementById('page' + pageNumber).classList.remove('hidden');
+        }
+
+        function showGift() {
+            document.getElementById('giftMessage').innerHTML = `
+                One promise that you want from me.<br>
+                <textarea id="promiseInput" placeholder="Type your promise here..." rows="4"></textarea><br>
+                <button onclick="sendPromise()" style="margin-top: 10px;">Send</button>
+            `;
+        }
+
+        function sendPromise() {
+            const message = document.getElementById('promiseInput').value;
+            if (message.trim()) {
+                const url = `https://wa.me/9528793864?text=${encodeURIComponent(message)}`;
+                window.open(url, '_blank');
+            } else {
+                alert('Please type a promise first.');
+            }
+        }
+
+        function showChocolate() {
+            document.getElementById('giftMessage').innerHTML =
+                '🍫 A box of digital chocolates!';
+        }
+
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'absolute';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+    </script>
+
+</body>
+</html>
